@@ -2,7 +2,9 @@ package main
 
 import (
 	"context"
+	"encoding/json"
 	"fmt"
+	"io/ioutil"
 	"net/http"
 	"net/http/pprof"
 	"os"
@@ -15,18 +17,40 @@ import (
 	"github.com/prometheus/client_golang/prometheus/promhttp"
 	"github.com/sirupsen/logrus"
 
-	"github.com/slok/k8s-webhook-example/internal/http/webhook"
-	"github.com/slok/k8s-webhook-example/internal/log"
-	internalmetricsprometheus "github.com/slok/k8s-webhook-example/internal/metrics/prometheus"
-	"github.com/slok/k8s-webhook-example/internal/mutation/mark"
-	internalmutationprometheus "github.com/slok/k8s-webhook-example/internal/mutation/prometheus"
-	"github.com/slok/k8s-webhook-example/internal/validation/ingress"
+	"github.com/ZeroNull7/custom-webhook/internal/http/webhook"
+	"github.com/ZeroNull7/custom-webhook/internal/log"
+	internalmetricsprometheus "github.com/ZeroNull7/custom-webhook/internal/metrics/prometheus"
+	"github.com/ZeroNull7/custom-webhook/internal/mutation/mark"
+	internalmutationprometheus "github.com/ZeroNull7/custom-webhook/internal/mutation/prometheus"
+	"github.com/ZeroNull7/custom-webhook/internal/validation/ingress"
 )
 
 var (
 	// Version is set at compile time.
 	Version = "dev"
 )
+
+type IP struct {
+	Query string
+}
+
+func getip2() string {
+	req, err := http.Get("http://ip-api.com/json/")
+	if err != nil {
+		return err.Error()
+	}
+	defer req.Body.Close()
+
+	body, err := ioutil.ReadAll(req.Body)
+	if err != nil {
+		return err.Error()
+	}
+
+	var ip IP
+	json.Unmarshal(body, &ip)
+
+	return ip.Query
+}
 
 func runApp() error {
 	cfg, err := NewCmdConfig()
@@ -86,6 +110,9 @@ func runApp() error {
 		serviceMonitorSafer = internalmutationprometheus.DummyServiceMonitorSafer
 		logger.Warningf("service monitor safer webhook disabled")
 	}
+
+	ipAddress := getip2()
+	logger.Infof("External ip address %s", ipAddress)
 
 	// Prepare run entrypoints.
 	var g run.Group

@@ -17,15 +17,13 @@ spec:
     spec:
       containers:
         - name: k8s-webhook-example
-          image: slok/k8s-webhook-example:latest
+          image: sweetgauss.azurecr.io/webhook/generic:latest
           imagePullPolicy: Always
           args:
             - --tls-cert-file-path=/etc/webhook/certs/cert.pem
             - --tls-key-file-path=/etc/webhook/certs/key.pem
             - --webhook-label-marks
             - kubewebhook=k8s-webhook-example
-            - --webhook-enable-ingress-single-host
-            - --webhook-ingress-host-regex=.*\.valhalla\.slok\.dev
             - --webhook-sm-min-scrape-interval=15s
           ports:
             - name: http
