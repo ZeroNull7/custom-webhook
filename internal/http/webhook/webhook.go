@@ -4,10 +4,10 @@ import (
 	"fmt"
 	"net/http"
 
-	"github.com/slok/k8s-webhook-example/internal/log"
-	"github.com/slok/k8s-webhook-example/internal/mutation/mark"
-	"github.com/slok/k8s-webhook-example/internal/mutation/prometheus"
-	"github.com/slok/k8s-webhook-example/internal/validation/ingress"
+	"github.com/ZeroNull7/custom-webhook/internal/log"
+	"github.com/ZeroNull7/custom-webhook/internal/mutation/mark"
+	"github.com/ZeroNull7/custom-webhook/internal/mutation/prometheus"
+	"github.com/ZeroNull7/custom-webhook/internal/validation/ingress"
 )
 
 // Config is the handler configuration.

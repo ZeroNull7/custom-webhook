@@ -15,8 +15,8 @@ import (
 	kwhvalidating "github.com/slok/kubewebhook/v2/pkg/webhook/validating"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 
-	"github.com/slok/k8s-webhook-example/internal/log"
-	"github.com/slok/k8s-webhook-example/internal/validation/ingress"
+	"github.com/ZeroNull7/custom-webhook/internal/log"
+	"github.com/ZeroNull7/custom-webhook/internal/validation/ingress"
 )
 
 // kubewebhookLogger is a small proxy to use our logger with Kubewebhook.
