@@ -66,18 +66,3 @@ spec:
   selector:
     app: k8s-webhook-example
 
----
-apiVersion: monitoring.coreos.com/v1
-kind: ServiceMonitor
-metadata:
-  labels:
-    app: k8s-webhook-example
-    prometheus: prometheus
-  name: k8s-webhook-example
-  namespace: k8s-webhook-example
-spec:
-  endpoints:
-  - port: metrics
-  selector:
-    matchLabels:
-      app: k8s-webhook-example
